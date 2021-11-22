@@ -1,2 +1,2 @@
 # Valoracion
-Microservicio de volaricón y comentarios para el proyecto de FIS 
+Microservicio de valoración y comentarios para el proyecto de FIS 
