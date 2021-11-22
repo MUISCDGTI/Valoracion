@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "API Contacts",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MUISCDGTI/Valoracion.git"
+  },
+  "homepage": "https://github.com/MUISCDGTI/Valoracion",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
