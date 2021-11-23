@@ -8,7 +8,7 @@ metadata:
 spec:
   replicas: {{ .Values.api.replicaCount }}
   selector: 
-    matchLabes: 
+    matchLabels: 
       app.kubernetes.io/name: api
       app.kubernetes.io/instance: {{ .Release.Name}}
   template:
@@ -23,8 +23,8 @@ spec:
           image: {{ .Values.api.image }}:{{ .Values.tag }}
           ports: 
             - name: http
-              conatinerPort: 3000
-              protocal: TCP
+              containerPort: 3000
+              protocol: TCP
           readinessProbe:
             periodSeconds: 1
             httpGet:

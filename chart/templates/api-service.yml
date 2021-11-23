@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: api
   labels:
-    {{- include "ratins.labels" . | nindent 4 }}
+    {{- include "ratings.labels" . | nindent 4 }}
   annotations:
     dev.okteto.com/auto-ingress: "true"
 spec:

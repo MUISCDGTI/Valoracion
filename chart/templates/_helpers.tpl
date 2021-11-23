@@ -1,9 +1,9 @@
-{{/* vim: set filetype=mustache */}}
+{{/* vim: set filetype=mustache: */}}
 {{/*
 Create chart name and version as used by the chart label.
 }}
-{{- Define ratings.chart" -}}
-{{- printf "%s-%s .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- define "ratings.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
