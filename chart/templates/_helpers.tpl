@@ -8,7 +8,7 @@ Create chart name and version as used by the chart label.
 
 {{/*
 Commom labels
-/*}}
+*/}}
 {{- define "ratings.labels" -}}
 helm.sh/chart: {{ include "ratings.chart" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
