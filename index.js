@@ -25,9 +25,12 @@ app.get(BASE_API_PATH + "/contacts", (req, res) => {
   db.find({}, (err, contacts) => {
     if (err) {
       console.log(Date() + " - " + err);
-      res.sendStatus(500)
+      res.sendStatus(500);
     } else {
-      res.send(contacts)
+      res.send(contacts.map((contact) => {
+        delete contact._id;
+        return contact;
+      }));
     }
   });
 });
