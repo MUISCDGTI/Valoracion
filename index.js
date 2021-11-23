@@ -4,7 +4,7 @@ var DataStore = require("nedb");
 
 var port = 3000;
 var BASE_API_PATH = "/api/v1";
-var DB_FILE_NAME = __dirname + "/contacts.json";
+var DB_FILE_NAME = __dirname + "/ratings.json";
 
 console.log("Starting API server...");
 
@@ -20,25 +20,25 @@ app.get("/", (req, res) => {
   res.send("<html><body><h1>My server</h1></body></html>");
 });
 
-app.get(BASE_API_PATH + "/contacts", (req, res) => {
-  console.log(Date() + " - GET /contacts");
-  db.find({}, (err, contacts) => {
+app.get(BASE_API_PATH + "/ratings", (req, res) => {
+  console.log(Date() + " - GET /ratings");
+  db.find({}, (err, ratings) => {
     if (err) {
       console.log(Date() + " - " + err);
       res.sendStatus(500);
     } else {
-      res.send(contacts.map((contact) => {
-        delete contact._id;
-        return contact;
+      res.send(ratings.map((rating) => {
+        delete rating._id;
+        return rating;
       }));
     }
   });
 });
 
-app.post(BASE_API_PATH + "/contacts", (req, res) => {
-  console.log(Date() + " - POST /contacts");
-  var contact = req.body;
-  db.insert(contact, (err) => {
+app.post(BASE_API_PATH + "/ratings", (req, res) => {
+  console.log(Date() + " - POST /ratings");
+  var rating = req.body;
+  db.insert(rating, (err) => {
     if (err) {
       console.log(Date() + " - " + err);
       res.sendStatus(500);

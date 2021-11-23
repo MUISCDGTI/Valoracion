@@ -1,7 +1,7 @@
 {
-  "name": "contacts",
+  "name": "ratings",
   "version": "1.0.0",
-  "description": "API Contacts",
+  "description": "API Ratings",
   "main": "index.js",
   "repository": {
     "type": "git",
