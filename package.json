@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^6.0.13",
+    "mongoose": "^5.10.0",
     "nedb": "^1.8.0"
   }
 }
