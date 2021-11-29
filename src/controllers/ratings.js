@@ -50,6 +50,24 @@ app.put("/:rating_id/value", (req, res) => {
   });
 });
 
+app.put("/:rating_id/description", (req, res) => {
+  console.log(Date() + " - GET /ratings PUT DESCRIPTION");
+  let id = req.params.rating_id;
+  let description = req.body.description;
+
+  const filter = { _id: id };
+  const update = { description: description };
+  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+    if (err) {
+      console.log(Date() + " - " + err);
+      res.sendStatus(500);
+    } else {
+      rating.description = description;
+      res.send(rating.cleanup());
+    }
+  });
+});
+
 app.post("/", (req, res) => {
   console.log(Date() + " - POST /ratings");
 
