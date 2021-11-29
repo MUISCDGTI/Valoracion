@@ -18,6 +18,56 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/:rating_id", (req, res) => {
+  console.log(Date() + " - GET /ratings BY ID");
+  let id = req.params.rating_id;
+
+  Rating.findById({ _id:id }, (err, rating) => {
+    if (err) {
+      console.log(Date() + " - " + err);
+      res.sendStatus(500);
+    } else {
+      res.send(rating.cleanup());
+    }
+  });
+});
+
+app.put("/:rating_id/value", (req, res) => {
+  console.log(Date() + " - GET /ratings PUT VALUE");
+  let id = req.params.rating_id;
+  let value = req.body.value;
+
+  const filter = { _id: id };
+  const update = { value: value };
+  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+    if (err) {
+      console.log(Date() + " - " + err);
+      res.sendStatus(500);
+    } else {
+      rating.value = value;
+      res.send(rating.cleanup());
+    }
+  });
+});
+
+app.put("/:rating_id/description", (req, res) => {
+  console.log(Date() + " - GET /ratings PUT DESCRIPTION");
+  let id = req.params.rating_id;
+  let description = req.body.description;
+
+  const filter = { _id: id };
+  const update = { description: description };
+  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+    if (err) {
+      console.log(Date() + " - " + err);
+      res.sendStatus(500);
+    } else {
+      rating.description = description;
+      res.send(rating.cleanup());
+    }
+  });
+});
+
 app.post("/", (req, res) => {
   console.log(Date() + " - POST /ratings");
 
