@@ -32,6 +32,24 @@ app.get("/:rating_id", (req, res) => {
   });
 });
 
+app.put("/:rating_id/value", (req, res) => {
+  console.log(Date() + " - GET /ratings PUT VALUE");
+  let id = req.params.rating_id;
+  let value = req.body.value;
+
+  const filter = { _id: id };
+  const update = { value: value };
+  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+    if (err) {
+      console.log(Date() + " - " + err);
+      res.sendStatus(500);
+    } else {
+      rating.value = value;
+      res.send(rating.cleanup());
+    }
+  });
+});
+
 app.post("/", (req, res) => {
   console.log(Date() + " - POST /ratings");
 
