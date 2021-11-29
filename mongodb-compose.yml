@@ -1,0 +1,13 @@
+name: ratings
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    expose: 
+      - '27017'
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: up0
+      MONGO_INITDB_ROOT_PASSWORD: up0
+      MONGO_INITDB_DATABASE: ratings
