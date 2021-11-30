@@ -5,7 +5,7 @@ Ratings and comments microservice for FIS educational project.
 
 ### MongoDB localchost url conecction error
 
-If you had the error [Connection error: MongooseServerSelectionError: getaddrinfo EAI_AGAIN mongodb] you must add the alias mongodb as with the IP 127.0.0.1 to the corresponding local file of your operating system. to add the line "127.0.0.1     mongodb"
+If you had the error [Connection error: MongooseServerSelectionError: getaddrinfo EAI_AGAIN mongodb] you must add the alias mongodb as with the IP 127.0.0.1 to the corresponding local file of your operating system. to add the line "127.0.0.1     mongodb".
 
 #### Windows
 
@@ -124,7 +124,7 @@ Use the following instructions if you’re running MacOS X 10.6 through 10.12:
 
     3. When you are prompted, enter your domain user password.
 
-    4. Edit the hosts file. The file contains comments (lines that begin with the # symbol) and some default host name mappings (for 	  example, 127.0.0.1 – local host). Add your new mappings after the default mappings.
+    4. Edit the hosts file. The file contains comments (lines that begin with the # symbol) and some default host name mappings (for example, 127.0.0.1 – localhost). Add your new mappings after the default mappings.
 
     5. To save the hosts file, press Control+X.
 
