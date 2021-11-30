@@ -3,7 +3,7 @@ Ratings and comments microservice for FIS educational project.
 
 ## Common errors
 
-### MongoDB localchost url conecction error
+### MongoDB conection error
 
 If you had the error [Connection error: MongooseServerSelectionError: getaddrinfo EAI_AGAIN mongodb] you must add the alias mongodb with the IP 127.0.0.1 to the corresponding local file of your operating system, adding the line "127.0.0.1     mongodb".
 
