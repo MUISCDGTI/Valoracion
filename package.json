@@ -10,7 +10,7 @@
   "homepage": "https://github.com/MUISCDGTI/Valoracion",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "authors": [
     "Emilia Coleto Alcudia",
@@ -20,6 +20,12 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^6.0.13",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "ts-node": "^10.4.0"
+  },
+  "devDependencies": {
+    "jest": "^27.4.3",
+    "jest-extended": "^1.2.0",
+    "supertest": "^6.1.6"
   }
 }

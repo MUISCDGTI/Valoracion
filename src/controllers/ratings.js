@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
       } else {
         res.send(
           ratings.map((rating) => {
-            return rating.cleanup();
+            return rating;
           })
         );
       }
