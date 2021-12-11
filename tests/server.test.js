@@ -72,6 +72,119 @@ describe("Ratings API", () => {
     });
   });
 
+  describe("GET /ratings BY ID", () => {
+    beforeAll(() => {
+      const rating = 
+        {
+          value: "4.5",
+          description: "Good film",
+          film: "1",
+          user: "11",
+          date: "2020-12-02T23:00:00.000+00:00",
+        };
+
+      dbFindById = jest.spyOn(Rating, "findById");
+      dbFindById.mockImplementation((r, callback) => {
+        callback(null, rating);
+      });
+    });
+
+    it("should return a rating by id", () => {
+      return request(app)
+        .get("/api/v1/ratings/619e98f2ac8738570c90a206")
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(response.body).toStrictEqual({
+            value: "4.5",
+            description: "Good film",
+            film: "1",
+            user: "11",
+            date: "2020-12-02T23:00:00.000+00:00",
+          });
+          expect(dbFindById).toBeCalledWith(
+            { _id: "619e98f2ac8738570c90a206" },
+            expect.any(Function)
+          );
+        });
+    });
+  });
+
+  describe("PUT /ratings DESCRIPTION", () => {
+    beforeAll(() => {
+      const rating = 
+        {
+          value: "4.5",
+          description: "Good film",
+          film: "1",
+          user: "11",
+          date: "2020-12-02T23:00:00.000+00:00",
+        };
+
+      dbFindOneAndUpdate = jest.spyOn(Rating, "findOneAndUpdate");
+      dbFindOneAndUpdate.mockImplementation((r, description, callback) => {
+        callback(null, rating);
+      });
+    });
+
+    it("should update a rating description by id", () => {
+      return request(app)
+        .put("/api/v1/ratings/619e98f2ac8738570c90a206/description")
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(dbFindOneAndUpdate).toBeCalledWith(
+            { _id: "619e98f2ac8738570c90a206" },
+            { description: undefined },
+            expect.any(Function)
+          );
+          expect(response.body).toStrictEqual({
+              value: "4.5",
+              // description: "Good film",
+              film: "1",
+              user: "11",
+              date: "2020-12-02T23:00:00.000+00:00",
+            });
+        });
+    });
+  });
+
+  describe("PUT /ratings VALUE", () => {
+    beforeAll(() => {
+      const rating = 
+        {
+          value: "4.5",
+          description: "Good film",
+          film: "1",
+          user: "11",
+          date: "2020-12-02T23:00:00.000+00:00",
+        };
+
+      dbFindOneAndUpdate = jest.spyOn(Rating, "findOneAndUpdate");
+      dbFindOneAndUpdate.mockImplementation((r, value, callback) => {
+        callback(null, rating);
+      });
+    });
+
+    it("should update a rating description by id", () => {
+      return request(app)
+        .put("/api/v1/ratings/619e98f2ac8738570c90a206/value")
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(dbFindOneAndUpdate).toBeCalledWith(
+            { _id: "619e98f2ac8738570c90a206" },
+            { value: undefined },
+            expect.any(Function)
+          );
+          expect(response.body).toStrictEqual({
+              // value: "4.5",
+              description: "Good film",
+              film: "1",
+              user: "11",
+              date: "2020-12-02T23:00:00.000+00:00",
+            });
+        });
+    });
+  });
+
   describe("POST /ratings", () => {
     const rating = {
       value: 4.5,
