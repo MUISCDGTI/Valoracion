@@ -126,19 +126,22 @@ describe("Ratings API", () => {
       });
     });
 
+    const description = { description: "New description" };
+
     it("should update a rating description by id", () => {
       return request(app)
         .put("/api/v1/ratings/619e98f2ac8738570c90a206/description")
+        .send(description)
         .then((response) => {
           expect(response.statusCode).toBe(200);
           expect(dbFindOneAndUpdate).toBeCalledWith(
             { _id: "619e98f2ac8738570c90a206" },
-            { description: undefined },
+            { description: "New description" },
             expect.any(Function)
           );
           expect(response.body).toStrictEqual({
               value: "4.5",
-              // description: "Good film",
+              description: "New description",
               film: "1",
               user: "11",
               date: "2020-12-02T23:00:00.000+00:00",
@@ -164,18 +167,21 @@ describe("Ratings API", () => {
       });
     });
 
-    it("should update a rating description by id", () => {
+    const value = { value: "3" };
+
+    it("should update a rating value by id", () => {
       return request(app)
         .put("/api/v1/ratings/619e98f2ac8738570c90a206/value")
+        .send(value)
         .then((response) => {
           expect(response.statusCode).toBe(200);
           expect(dbFindOneAndUpdate).toBeCalledWith(
             { _id: "619e98f2ac8738570c90a206" },
-            { value: undefined },
+            { value: "3" },
             expect.any(Function)
           );
           expect(response.body).toStrictEqual({
-              // value: "4.5",
+              value: "3",
               description: "Good film",
               film: "1",
               user: "11",
