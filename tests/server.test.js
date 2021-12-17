@@ -121,7 +121,7 @@ describe("Ratings API", () => {
         };
 
       dbFindOneAndUpdate = jest.spyOn(Rating, "findOneAndUpdate");
-      dbFindOneAndUpdate.mockImplementation((r, description, callback) => {
+      dbFindOneAndUpdate.mockImplementation((r, description, validator, callback) => {
         callback(null, rating);
       });
     });
@@ -137,6 +137,7 @@ describe("Ratings API", () => {
           expect(dbFindOneAndUpdate).toBeCalledWith(
             { _id: "619e98f2ac8738570c90a206" },
             { description: "New description" },
+            { runValidators: true },
             expect.any(Function)
           );
           expect(response.body).toStrictEqual({
@@ -162,7 +163,7 @@ describe("Ratings API", () => {
         };
 
       dbFindOneAndUpdate = jest.spyOn(Rating, "findOneAndUpdate");
-      dbFindOneAndUpdate.mockImplementation((r, value, callback) => {
+      dbFindOneAndUpdate.mockImplementation((r, value, validator, callback) => {
         callback(null, rating);
       });
     });
@@ -178,6 +179,7 @@ describe("Ratings API", () => {
           expect(dbFindOneAndUpdate).toBeCalledWith(
             { _id: "619e98f2ac8738570c90a206" },
             { value: "3" },
+            { runValidators: true },
             expect.any(Function)
           );
           expect(response.body).toStrictEqual({
