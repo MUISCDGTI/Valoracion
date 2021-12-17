@@ -65,10 +65,15 @@ app.put("/:rating_id/value", (req, res) => {
 
   const filter = { _id: id };
   const update = { value: value };
-  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+  Rating.findOneAndUpdate(filter, update, { runValidators: true }, (err, rating) => {
     if (err) {
       console.log(Date() + " - " + err);
-      res.sendStatus(500);
+
+      if (err.errors) {
+        res.status(400).send({ error: err.message })
+      } else {
+        res.sendStatus(500);
+      }
     } else {
       rating.value = value;
       res.send(rating);
@@ -83,10 +88,15 @@ app.put("/:rating_id/description", (req, res) => {
 
   const filter = { _id: id };
   const update = { description: description };
-  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+  Rating.findOneAndUpdate(filter, update, { runValidators: true }, (err, rating) => {
     if (err) {
       console.log(Date() + " - " + err);
-      res.sendStatus(500);
+
+      if (err.errors) {
+        res.status(400).send({ error: err.message })
+      } else {
+        res.sendStatus(500);
+      }
     } else {
       rating.description = description;
       res.send(rating);
