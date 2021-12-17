@@ -30,7 +30,7 @@ const ratingSchema = new mongoose.Schema({
         );
       },
       message:
-        "The date must be in the future.",
+        "The date must be in the past.",
     }
   },
 });
