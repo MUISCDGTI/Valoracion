@@ -53,13 +53,13 @@ app.get("/:rating_id", (req, res) => {
       console.log(Date() + " - " + err);
       res.sendStatus(500);
     } else {
-      res.send(rating.cleanup());
+      res.send(rating);
     }
   });
 });
 
 app.put("/:rating_id/value", (req, res) => {
-  console.log(Date() + " - GET /ratings PUT VALUE");
+  console.log(Date() + " - PUT /ratings VALUE");
   let id = req.params.rating_id;
   let value = req.body.value;
 
@@ -71,13 +71,13 @@ app.put("/:rating_id/value", (req, res) => {
       res.sendStatus(500);
     } else {
       rating.value = value;
-      res.send(rating.cleanup());
+      res.send(rating);
     }
   });
 });
 
 app.put("/:rating_id/description", (req, res) => {
-  console.log(Date() + " - GET /ratings PUT DESCRIPTION");
+  console.log(Date() + " - PUT /ratings DESCRIPTION");
   let id = req.params.rating_id;
   let description = req.body.description;
 
@@ -89,7 +89,7 @@ app.put("/:rating_id/description", (req, res) => {
       res.sendStatus(500);
     } else {
       rating.description = description;
-      res.send(rating.cleanup());
+      res.send(rating);
     }
   });
 });
