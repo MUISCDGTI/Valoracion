@@ -24,7 +24,7 @@ describe("Ratings API", () => {
           description: "Good film",
           film: "1",
           user: "11",
-          date: "2020-12-02T23:00:00.000+00:00",
+          date: "2020-11-02T23:00:00.000+00:00",
         },
         {
           value: "1.5",
@@ -32,6 +32,13 @@ describe("Ratings API", () => {
           film: "15",
           user: "19",
           date: "2021-12-02T23:00:00.000+00:00",
+        },
+        {
+          value: "3",
+          description: "Nice",
+          film: "15",
+          user: "11",
+          date: "2021-12-16T17:00:00.000+00:00",
         },
       ];
 
@@ -52,7 +59,7 @@ describe("Ratings API", () => {
               description: "Good film",
               film: "1",
               user: "11",
-              date: "2020-12-02T23:00:00.000+00:00",
+              date: "2020-11-02T23:00:00.000+00:00",
             },
             {
               value: "1.5",
@@ -60,6 +67,13 @@ describe("Ratings API", () => {
               film: "15",
               user: "19",
               date: "2021-12-02T23:00:00.000+00:00",
+            },
+            {
+              value: "3",
+              description: "Nice",
+              film: "15",
+              user: "11",
+              date: "2021-12-16T17:00:00.000+00:00",
             },
           ]);
           expect(dbFind).toBeCalledWith(
@@ -70,6 +84,42 @@ describe("Ratings API", () => {
           );
         });
     });
+
+    /* it("should return ratings filtered by description", () => {
+      return request(app)
+        .get("/api/v1/ratings")
+        .query({ description: "film" })
+        .then(
+          (response) => {
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toBe([
+              {
+                value: "4.5",
+                description: "Good film",
+                film: "1",
+                user: "11",
+                date: "2020-11-02T23:00:00.000+00:00",
+              },
+              {
+                value: "1.5",
+                description: "Bad film",
+                film: "15",
+                user: "19",
+                date: "2021-12-02T23:00:00.000+00:00",
+              },
+            ]);
+            expect(dbFind).toBeCalledWith(
+              { description: { $regex: /film/i } },
+              null,
+              { sort: { date: 1 } },
+              expect.any(Function)
+            );
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    }); */
   });
 
   describe("POST /ratings", () => {
@@ -117,14 +167,13 @@ describe("Ratings API", () => {
 
   describe("DELETE /ratings/:rating_id", () => {
     beforeAll(() => {
-      const rating = 
-        {
-          value: "4.5",
-          description: "Good film",
-          film: "1",
-          user: "11",
-          date: "2020-12-02T23:00:00.000+00:00",
-        };
+      const rating = {
+        value: "4.5",
+        description: "Good film",
+        film: "1",
+        user: "11",
+        date: "2020-12-02T23:00:00.000+00:00",
+      };
 
       dbDelete = jest.spyOn(Rating, "deleteOne");
     });
