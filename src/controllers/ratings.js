@@ -53,43 +53,53 @@ app.get("/:rating_id", (req, res) => {
       console.log(Date() + " - " + err);
       res.sendStatus(500);
     } else {
-      res.send(rating.cleanup());
+      res.send(rating);
     }
   });
 });
 
 app.put("/:rating_id/value", (req, res) => {
-  console.log(Date() + " - GET /ratings PUT VALUE");
+  console.log(Date() + " - PUT /ratings VALUE");
   let id = req.params.rating_id;
   let value = req.body.value;
 
   const filter = { _id: id };
   const update = { value: value };
-  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+  Rating.findOneAndUpdate(filter, update, { runValidators: true }, (err, rating) => {
     if (err) {
       console.log(Date() + " - " + err);
-      res.sendStatus(500);
+
+      if (err.errors) {
+        res.status(400).send({ error: err.message })
+      } else {
+        res.sendStatus(500);
+      }
     } else {
       rating.value = value;
-      res.send(rating.cleanup());
+      res.send(rating);
     }
   });
 });
 
 app.put("/:rating_id/description", (req, res) => {
-  console.log(Date() + " - GET /ratings PUT DESCRIPTION");
+  console.log(Date() + " - PUT /ratings DESCRIPTION");
   let id = req.params.rating_id;
   let description = req.body.description;
 
   const filter = { _id: id };
   const update = { description: description };
-  Rating.findOneAndUpdate(filter, update, (err, rating) => {
+  Rating.findOneAndUpdate(filter, update, { runValidators: true }, (err, rating) => {
     if (err) {
       console.log(Date() + " - " + err);
-      res.sendStatus(500);
+
+      if (err.errors) {
+        res.status(400).send({ error: err.message })
+      } else {
+        res.sendStatus(500);
+      }
     } else {
       rating.description = description;
-      res.send(rating.cleanup());
+      res.send(rating);
     }
   });
 });
@@ -101,7 +111,12 @@ app.post("/", (req, res) => {
   Rating.create(rating, (err) => {
     if (err) {
       console.log(Date() + " - " + err);
-      res.sendStatus(500);
+
+      if (err.errors) {
+        res.status(400).send({ error: err.message })
+      } else {
+        res.sendStatus(500);
+      }
     } else {
       res.sendStatus(201);
     }
