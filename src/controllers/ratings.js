@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   var dates = [];
   if (queries.between) {
     dates = queries.between.split(":");
-    queries.date = {
+    queries.between = {
       $gte: new Date(dates[0]),
       $lt: new Date(dates[1]),
     };
