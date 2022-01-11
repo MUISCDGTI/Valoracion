@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express.Router();
-
 var Rating = require("../models/rating.js");
+const { response } = require("../../server");
 
 app.get("/", (req, res) => {
   console.log(Date() + " - GET /ratings");
