@@ -10,7 +10,8 @@
   "homepage": "https://github.com/MUISCDGTI/Valoracion",
   "scripts": {
     "start": "node index.js",
-    "test": "jest"
+    "test": "jest",
+    "integration" : "jest -c jest.integration.config.js"
   },
   "authors": [
     "Emilia Coleto Alcudia",
