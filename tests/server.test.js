@@ -1,8 +1,19 @@
 const app = require("../server.js");
 const request = require("supertest");
 const Rating = require("../src/models/rating.js");
+const ApiKey = require('../apikeys.js');
 
 describe("Ratings API", () => {
+  const user = {
+    user : 'test',
+    apikey: '1'
+  };
+
+  auth = jest.spyOn(ApiKey, "findOne");
+  auth.mockImplementation((query, callback) => {
+    callback(null, new ApiKey(user));
+  });
+
   describe("GET /", () => {
     it("should return an HTML document", () => {
       return request(app)
@@ -41,15 +52,26 @@ describe("Ratings API", () => {
         },
       ];
 
+      const user = {
+        user : 'test',
+        apikey: '1'
+      };
+
       dbFind = jest.spyOn(Rating, "find");
       dbFind.mockImplementation((query, sm, sort, callback) => {
         callback(null, ratings);
+      });
+
+      auth = jest.spyOn(ApiKey, "findOne");
+      auth.mockImplementation((query, callback) => {
+        callback(null, new ApiKey(user));
       });
     });
 
     it("should return all ratings sortered asc", () => {
       return request(app)
         .get("/api/v1/ratings")
+        .set('apikey', '1')
         .then((response) => {
           expect(response.statusCode).toBe(200);
           expect(response.body).toStrictEqual([
@@ -110,6 +132,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .get("/api/v1/ratings")
+        .set('apikey', '1')
         .query({ sort: 'des' })
         .then((response) => {
           expect(response.statusCode).toBe(200);
@@ -164,6 +187,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .get("/api/v1/ratings")
+        .set('apikey', '1')
         .query({ description: "film" })
         .then(
           (response) => {
@@ -262,6 +286,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .get("/api/v1/ratings")
+        .set('apikey', '1')
         .query({ lessThan: 5, greaterThan: 3 })
         .then(
           (response) => {
@@ -311,6 +336,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .get("/api/v1/ratings")
+        .set('apikey', '1')
         .query({ user: 11 })
         .then(
           (response) => {
@@ -360,6 +386,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .get("/api/v1/ratings")
+        .set('apikey', '1')
         .query({film: 15})
         .then(
           (response) => {
@@ -403,15 +430,26 @@ describe("Ratings API", () => {
           date: "2020-12-02T23:00:00.000+00:00",
         };
 
+      const user = {
+        user : 'test',
+        apikey: '1'
+      };
+
       dbFindById = jest.spyOn(Rating, "findById");
       dbFindById.mockImplementation((r, callback) => {
         callback(null, rating);
+      });
+
+      auth = jest.spyOn(ApiKey, "findOne");
+      auth.mockImplementation((query, callback) => {
+        callback(null, new ApiKey(user));
       });
     });
 
     it("should return a rating by id", () => {
       return request(app)
         .get("/api/v1/ratings/619e98f2ac8738570c90a206")
+        .set('apikey', '1')
         .then((response) => {
           expect(response.statusCode).toBe(200);
           expect(response.body).toStrictEqual({
@@ -436,6 +474,7 @@ describe("Ratings API", () => {
 
       return request(app)
         .get("/api/v1/ratings/619e98f2ac8738570c90a205")
+        .set('apikey', '1')
         .then((response) => {
           expect(response.statusCode).toBe(500);
           expect(response.body).toStrictEqual({});
@@ -449,18 +488,27 @@ describe("Ratings API", () => {
 
   describe("PUT /ratings DESCRIPTION", () => {
     beforeAll(() => {
-      const rating = 
-        {
-          value: "4.5",
-          description: "Good film",
-          film: "1",
-          user: "11",
-          date: "2020-12-02T23:00:00.000+00:00",
-        };
+      const rating = {
+        value: "4.5",
+        description: "Good film",
+        film: "1",
+        user: "11",
+        date: "2020-12-02T23:00:00.000+00:00",
+      };
+      
+      const user = {
+        user : 'test',
+        apikey: '1'
+      };
 
       dbFindOneAndUpdate = jest.spyOn(Rating, "findOneAndUpdate");
       dbFindOneAndUpdate.mockImplementation((r, description, validator, callback) => {
         callback(null, rating);
+      });
+
+      auth = jest.spyOn(ApiKey, "findOne");
+      auth.mockImplementation((query, callback) => {
+        callback(null, new ApiKey(user));
       });
     });
 
@@ -469,6 +517,7 @@ describe("Ratings API", () => {
     it("should update a rating description by id", () => {
       return request(app)
         .put("/api/v1/ratings/619e98f2ac8738570c90a206/description")
+        .set('apikey', '1')
         .send(description)
         .then((response) => {
           expect(response.statusCode).toBe(200);
@@ -494,6 +543,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .put("/api/v1/ratings/619e98f2ac8738570c90a206/description")
+        .set('apikey', '1')
         .send({description: 1})
         .then((response) => {
           expect(response.statusCode).toBe(500);
@@ -512,6 +562,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .put("/api/v1/ratings/update/description")
+        .set('apikey', '1')
         .send(description)
         .then((response) => {
           expect(response.statusCode).toBe(500);
@@ -527,18 +578,27 @@ describe("Ratings API", () => {
 
   describe("PUT /ratings VALUE", () => {
     beforeAll(() => {
-      const rating = 
-        {
-          value: "4.5",
-          description: "Good film",
-          film: "1",
-          user: "11",
-          date: "2020-12-02T23:00:00.000+00:00",
-        };
+      const rating = {
+        value: "4.5",
+        description: "Good film",
+        film: "1",
+        user: "11",
+        date: "2020-12-02T23:00:00.000+00:00",
+      };
+
+      const user = {
+        user : 'test',
+        apikey: '1'
+      };
 
       dbFindOneAndUpdate = jest.spyOn(Rating, "findOneAndUpdate");
       dbFindOneAndUpdate.mockImplementation((r, value, validator, callback) => {
         callback(null, rating);
+      });
+
+      auth = jest.spyOn(ApiKey, "findOne");
+      auth.mockImplementation((query, callback) => {
+        callback(null, new ApiKey(user));
       });
     });
 
@@ -547,6 +607,7 @@ describe("Ratings API", () => {
     it("should update a rating value by id", () => {
       return request(app)
         .put("/api/v1/ratings/619e98f2ac8738570c90a206/value")
+        .set('apikey', '1')
         .send(value)
         .then((response) => {
           expect(response.statusCode).toBe(200);
@@ -572,6 +633,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .put("/api/v1/ratings/619e98f2ac8738570c90a206/value")
+        .set('apikey', '1')
         .send({ value: "value" })
         .then((response) => {
           expect(response.statusCode).toBe(500);
@@ -591,6 +653,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .put("/api/v1/ratings/update/value")
+        .set('apikey', '1')
         .send(value)
         .then((response) => {
           expect(response.statusCode).toBe(500);
@@ -616,7 +679,17 @@ describe("Ratings API", () => {
     let dbInsert;
 
     beforeEach(() => {
+      const user = {
+        user : 'test',
+        apikey: '1'
+      };
+
       dbInsert = jest.spyOn(Rating, "create");
+
+      auth = jest.spyOn(ApiKey, "findOne");
+      auth.mockImplementation((query, callback) => {
+        callback(null, new ApiKey(user));
+      });
     });
 
     it("should add a new rating", () => {
@@ -626,6 +699,7 @@ describe("Ratings API", () => {
 
       return request(app)
         .post("/api/v1/ratings")
+        .set('apikey', '1')
         .send(rating)
         .then((response) => {
           expect(response.statusCode).toBe(201);
@@ -640,6 +714,7 @@ describe("Ratings API", () => {
 
       return request(app)
         .post("/api/v1/ratings")
+        .set('apikey', '1')
         .send(rating)
         .then((response) => {
           expect(response.statusCode).toBe(500);
@@ -657,7 +732,17 @@ describe("Ratings API", () => {
         date: "2020-12-02T23:00:00.000+00:00",
       };
 
+      const user = {
+        user : 'test',
+        apikey: '1'
+      };
+
       dbDelete = jest.spyOn(Rating, "deleteOne");
+
+      auth = jest.spyOn(ApiKey, "findOne");
+      auth.mockImplementation((query, callback) => {
+        callback(null, new ApiKey(user));
+      });
     });
 
     it("should delete a rating", () => {
@@ -666,6 +751,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .delete("/api/v1/ratings/619e98f2ac8738570c90a206")
+        .set('apikey', '1')
         .then((response) => {
           expect(response.statusCode).toBe(200);
           expect(dbDelete).toBeCalledWith(
@@ -681,6 +767,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .delete("/api/v1/ratings/delete")
+        .set('apikey', '1')
         .then((response) => {
           expect(response.statusCode).toBe(500);
           expect(dbDelete).toBeCalledWith(
