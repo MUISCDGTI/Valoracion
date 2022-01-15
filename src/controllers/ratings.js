@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express.Router();
+require('../../passport.js');
+const passport = require('passport');
 
 var Rating = require("../models/rating.js");
 
-app.get("/", (req, res) => {
+app.get("/", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - GET /ratings");
 
   var queries = req.query;
@@ -44,7 +46,7 @@ app.get("/", (req, res) => {
   );
 });
 
-app.get("/:rating_id", (req, res) => {
+app.get("/:rating_id", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - GET /ratings BY ID");
   let id = req.params.rating_id;
 
@@ -58,7 +60,7 @@ app.get("/:rating_id", (req, res) => {
   });
 });
 
-app.put("/:rating_id/value", (req, res) => {
+app.put("/:rating_id/value", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - PUT /ratings VALUE");
   let id = req.params.rating_id;
   let value = req.body.value;
@@ -81,7 +83,7 @@ app.put("/:rating_id/value", (req, res) => {
   });
 });
 
-app.put("/:rating_id/description", (req, res) => {
+app.put("/:rating_id/description", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - PUT /ratings DESCRIPTION");
   let id = req.params.rating_id;
   let description = req.body.description;
@@ -104,7 +106,7 @@ app.put("/:rating_id/description", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
+app.post("/", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - POST /ratings");
 
   var rating = req.body;
@@ -123,7 +125,7 @@ app.post("/", (req, res) => {
   });
 });
 
-app.delete("/:rating_id", (req, res) => {
+app.delete("/:rating_id", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - DELETE /ratings/:rating_id");
   const rating_id = req.params.rating_id;
   Rating.deleteOne({ _id: rating_id }, (err, rating) => {
