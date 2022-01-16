@@ -1,6 +1,6 @@
-const Rating = require("../src/models/rating.js");
+const Rating = require("../../src/models/rating.js");
 const mongoose = require("mongoose");
-const dbConnect = require("../db.js");
+const dbConnect = require("../../db.js");
 
 describe("Ratings DB connection", () => {
     beforeAll(() => {

@@ -10,7 +10,8 @@
   "homepage": "https://github.com/MUISCDGTI/Valoracion",
   "scripts": {
     "start": "node index.js",
-    "test": "jest"
+    "test": "jest",
+    "integration" : "jest -c jest.integration.config.js"
   },
   "authors": [
     "Emilia Coleto Alcudia",
@@ -24,7 +25,11 @@
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
     "ts-node": "^10.4.0",
-    "url-join": "^4.0.1"
+    "url-join": "^4.0.1",
+    "mongoose-sequence": "^5.3.1",
+    "passport": "^0.5.2",
+    "passport-localapikey-update": "^0.6.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "jest": "^27.4.3",
