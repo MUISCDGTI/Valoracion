@@ -1,0 +1,333 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "Microservicio de valoraciones\n",
+      "version": "1.0.0",
+      "title": "Valoración",
+      "contact": {
+        "email": "emiliacoleto@gmail.com"
+      }
+    },
+    "host": "virtserver.swaggerhub.com",
+    "basePath": "/emiliacoleto/Microservicio-Valoracion/1.0.0",
+    "tags": [
+      {
+        "name": "rating",
+        "description": "Ratings"
+      }
+    ],
+    "schemes": [
+      "https",
+      "http"
+    ],
+    "paths": {
+      "/ratings": {
+        "get": {
+          "tags": [
+            "rating"
+          ],
+          "summary": "Finds all ratings",
+          "description": "Returns all ratings",
+          "operationId": "getRatings",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "film",
+              "in": "query",
+              "description": "ID of ratings' film",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "user",
+              "in": "query",
+              "description": "ID of ratings' author",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "in": "query",
+              "description": "Piece of text which rating description contains",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "lessThan",
+              "in": "query",
+              "description": "Maximum value for ratings punctuation",
+              "required": false,
+              "type": "number"
+            },
+            {
+              "name": "greaterThan",
+              "in": "query",
+              "description": "Minimum value for ratings punctuation",
+              "required": false,
+              "type": "number"
+            },
+            {
+              "name": "between",
+              "in": "query",
+              "description": "Range of dates",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "sort",
+              "in": "query",
+              "description": "Ascendent or descendent sort",
+              "required": false,
+              "type": "string",
+              "enum": [
+                "asc",
+                "des"
+              ]
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Rating"
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "rating"
+          ],
+          "summary": "Add a new rating",
+          "operationId": "addRating",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Rating object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Rating"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/ratings/{ratingId}": {
+        "get": {
+          "tags": [
+            "rating"
+          ],
+          "summary": "Finds one rating",
+          "description": "Returns a rating by ID",
+          "operationId": "getRating",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "ratingId",
+              "in": "path",
+              "description": "Rating ID",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/Rating"
+              }
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "rating"
+          ],
+          "summary": "Deletes one rating",
+          "description": "Deletes a rating by ID",
+          "operationId": "deleteRating",
+          "parameters": [
+            {
+              "name": "ratingId",
+              "in": "path",
+              "description": "ID of rating to delete",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Rating deleted successfully"
+            },
+            "404": {
+              "description": "Rating not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/ratings/{ratingId}/value": {
+        "put": {
+          "tags": [
+            "rating"
+          ],
+          "summary": "Update one rating",
+          "description": "Update the rating's value",
+          "operationId": "updateRatingValue",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "ratingId",
+              "in": "path",
+              "description": "Rating's ID",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "value",
+              "description": "New value for the rating",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            },
+            "404": {
+              "description": "Rating not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/ratings/{ratingId}/description": {
+        "put": {
+          "tags": [
+            "rating"
+          ],
+          "summary": "Update one rating",
+          "description": "Update the rating's description",
+          "operationId": "updateRatingDescription",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "ratingId",
+              "in": "path",
+              "description": "Rating's ID",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "description",
+              "description": "New description for the rating",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            },
+            "404": {
+              "description": "Rating not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Rating": {
+        "type": "object",
+        "required": [
+          "date",
+          "film",
+          "user",
+          "value",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "b08f72f0-13c9-4355-adc0-1628da6a0336"
+          },
+          "value": {
+            "type": "number",
+            "example": 4.5
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a description"
+          },
+          "film": {
+            "type": "string",
+            "example": "e8abd245-8422-4f27-a199-466f0886c11a"
+          },
+          "user": {
+            "type": "string",
+            "example": "15956cb9-56db-4046-925e-cd9b07293ef1"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-08-07"
+          }
+        },
+        "xml": {
+          "name": "Rating"
+        }
+      }
+    },
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "http://swagger.io"
+    }
+  }
