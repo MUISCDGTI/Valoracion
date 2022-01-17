@@ -2,6 +2,8 @@ const app = require("../server.js");
 const request = require("supertest");
 const Rating = require("../src/models/rating.js");
 const ApiKey = require('../apikeys.js');
+const passport = require('passport');
+const moment = require('moment');
 
 describe("Ratings API", () => {
   const user = {
@@ -218,7 +220,7 @@ describe("Ratings API", () => {
         );
     });
 
-    /* it("should return ratings filtered by range of dates", () => {
+    it("should return ratings filtered by range of dates", () => {
       dbFind.mockImplementation((query, sm, sort, callback) => {
         callback(null, [{
           value: "1.5",
@@ -237,6 +239,7 @@ describe("Ratings API", () => {
       });
       return request(app)
         .get("/api/v1/ratings")
+        .set('apikey', '1')
         .query({ between: "2020-12-01:2021-12-20" })
         .then(
           (response) => {
@@ -257,15 +260,9 @@ describe("Ratings API", () => {
                 date: "2021-12-16T17:00:00.000+00:00",
               }
             ]);
-            expect(dbFind).toBeCalledWith(
-              { between: { '$gte': date = moment('2020-12-01'), '$lt': moment('2021-12-20') } },
-              null,
-              { sort: { date: 1 } },
-              expect.any(Function)
-            );
           }
         );
-    }); */
+    });
 
     it("should return ratings filtered by range of punctuations", () => {
       dbFind.mockImplementation((query, sm, sort, callback) => {
