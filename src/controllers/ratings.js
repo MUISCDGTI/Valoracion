@@ -5,7 +5,7 @@ require('../../passport.js');
 const passport = require('passport');
 
 var Rating = require("../models/rating.js");
-const { response } = require("../../server");
+const { response } = require("../../server.js");
 
 app.get("/", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - GET /ratings");

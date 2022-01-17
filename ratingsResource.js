@@ -8,7 +8,7 @@ class RatingsResource {
   }
 
   static requestHeaders() {
-    const ratingsKey = (provess.env.RATINGS_APIKEY || '25017cf0-4cca-4766-949c-e5aedba8e09b');
+    const ratingsKey = (provess.env.RATINGS_APIKEY || 'dc2151e0-2e52-43cb-b673-94bf1cb9d60b');
     return { apiKey: ratingsKey };
   }
 

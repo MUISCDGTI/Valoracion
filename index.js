@@ -2,7 +2,7 @@ const app = require("./server.js");
 const dbConnect = require("./db.js");
 const RatingsResource = require('./ratingsResource');
 
-var port = (process.env.PORT || 5000);
+var port = (process.env.PORT || 3000);
 
 console.log("Starting API server at " + port);
 
