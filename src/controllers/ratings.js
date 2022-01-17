@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express.Router();
+
 require('../../passport.js');
 const passport = require('passport');
 
 var Rating = require("../models/rating.js");
+const { response } = require("../../server.js");
 
 app.get("/", passport.authenticate('localapikey', {session:false}), (req, res) => {
   console.log(Date() + " - GET /ratings");
@@ -18,14 +20,15 @@ app.get("/", passport.authenticate('localapikey', {session:false}), (req, res) =
   var dates = [];
   if (queries.between) {
     dates = queries.between.split(":");
-    queries.between = {
+    queries.date = {
       $gte: new Date(dates[0]),
       $lt: new Date(dates[1]),
     };
   }
 
-  queries.lessThan ? (queries.value = { $lte: queries.lessThan }) : null;
-  queries.greaterThan ? (queries.value = { $gt: queries.greaterThan }) : null;
+  if (queries.lessThan || queries.greaterThan) {
+    queries.value = { $lte: queries.lessThan, $gt: queries.greaterThan };
+  }
 
   Rating.find(
     queries,
@@ -50,7 +53,7 @@ app.get("/:rating_id", passport.authenticate('localapikey', {session:false}), (r
   console.log(Date() + " - GET /ratings BY ID");
   let id = req.params.rating_id;
 
-  Rating.findById({ _id:id }, (err, rating) => {
+  Rating.findById({ _id: id }, (err, rating) => {
     if (err) {
       console.log(Date() + " - " + err);
       res.sendStatus(500);
@@ -67,20 +70,25 @@ app.put("/:rating_id/value", passport.authenticate('localapikey', {session:false
 
   const filter = { _id: id };
   const update = { value: value };
-  Rating.findOneAndUpdate(filter, update, { runValidators: true }, (err, rating) => {
-    if (err) {
-      console.log(Date() + " - " + err);
+  Rating.findOneAndUpdate(
+    filter,
+    update,
+    { runValidators: true },
+    (err, rating) => {
+      if (err) {
+        console.log(Date() + " - " + err);
 
-      if (err.errors) {
-        res.status(400).send({ error: err.message })
+        if (err.errors) {
+          res.status(400).send({ error: err.message });
+        } else {
+          res.sendStatus(500);
+        }
       } else {
-        res.sendStatus(500);
+        rating.value = value;
+        res.send(rating);
       }
-    } else {
-      rating.value = value;
-      res.send(rating);
     }
-  });
+  );
 });
 
 app.put("/:rating_id/description", passport.authenticate('localapikey', {session:false}), (req, res) => {
@@ -90,20 +98,25 @@ app.put("/:rating_id/description", passport.authenticate('localapikey', {session
 
   const filter = { _id: id };
   const update = { description: description };
-  Rating.findOneAndUpdate(filter, update, { runValidators: true }, (err, rating) => {
-    if (err) {
-      console.log(Date() + " - " + err);
+  Rating.findOneAndUpdate(
+    filter,
+    update,
+    { runValidators: true },
+    (err, rating) => {
+      if (err) {
+        console.log(Date() + " - " + err);
 
-      if (err.errors) {
-        res.status(400).send({ error: err.message })
+        if (err.errors) {
+          res.status(400).send({ error: err.message });
+        } else {
+          res.sendStatus(500);
+        }
       } else {
-        res.sendStatus(500);
+        rating.description = description;
+        res.send(rating);
       }
-    } else {
-      rating.description = description;
-      res.send(rating);
     }
-  });
+  );
 });
 
 app.post("/", passport.authenticate('localapikey', {session:false}), (req, res) => {
@@ -115,7 +128,7 @@ app.post("/", passport.authenticate('localapikey', {session:false}), (req, res) 
       console.log(Date() + " - " + err);
 
       if (err.errors) {
-        res.status(400).send({ error: err.message })
+        res.status(400).send({ error: err.message });
       } else {
         res.sendStatus(500);
       }
