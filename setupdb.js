@@ -1,5 +1,5 @@
-const dbConnect = require('./db');
-const ApiKey = require('./apikeys');
+const dbConnect = require("./db.js");
+const ApiKey = require("./apikeys.js");
 
 dbConnect().then(
     () => {
@@ -8,7 +8,7 @@ dbConnect().then(
             if (err) {
                 console.log(err);
             }else{
-                console.log('user: ' + user.user + ", " + user.apikey + " saved.");
+                console.log("user: " + user.user + ", " + user.apikey + " saved.");
             }
         })
     }

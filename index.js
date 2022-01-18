@@ -1,6 +1,6 @@
 const app = require("./server.js");
 const dbConnect = require("./db.js");
-const RatingsResource = require('./ratingsResource');
+const RatingsResource = require("./ratingsResource.js");
 
 var port = (process.env.PORT || 3000);
 

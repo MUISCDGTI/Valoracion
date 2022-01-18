@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const uuid = require('uuid');
+const uuid = require("uuid");
 
 const apiKeySchema = new mongoose.Schema({
     user: String,
